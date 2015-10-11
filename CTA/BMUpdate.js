@@ -1,7 +1,7 @@
 
-busesUpdate=function(){
+busesUpdate=function(key){
   var routes = BusesRoutes.find().fetch()[0].routes;
-  var str=("http://www.ctabustracker.com/bustime/api/v1/getvehicles?key=".concat(Meteor.settings.private.CTATOKEN1)+"&rt=");
+  var str=("http://www.ctabustracker.com/bustime/api/v1/getvehicles?key=".concat(key)+"&rt=");
   routes.reduce(function(pre, cur, idx) {
     if ((idx + 1) % 11 === 0) {
       HTTP.call("GET",str.concat(pre), function(err, res) {

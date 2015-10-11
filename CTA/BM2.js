@@ -15,7 +15,7 @@ if (Meteor.isServer) {
             }, []);
             BusesRoutes.insert({'routes': availableRoutes},function(err,id){
                 if(!err)
-                  busesUpdate();
+                  busesUpdate(Meteor.settings.private.CTATOKEN1);
             });
           }
         });
