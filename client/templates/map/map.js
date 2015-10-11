@@ -1,15 +1,13 @@
 let center;
 let marker;
 let buses;
-const RADIUS = 5; // this value needs to = value in the serverside publish function
+const RADIUS = 500; // this value needs to = value in the serverside publish function
 
 let moveMarker = function(e) {
   center = maps.map.getCenter();
   marker.setLatLng(center);
-};
-
-let setBounds = function(e) {
-  Session.set('publish_object', {position: center, distance: RADIUS});  
+  console.log('pub');
+  Session.set('publish_object', {position: center, distance: RADIUS});
 };
 
 Template.map.helpers({
@@ -37,7 +35,7 @@ Template.map.rendered = function() {
         marker.addTo(maps.map);
       }
       maps.map.on('move', moveMarker);
-
+      
         for (key in maps.buses) {
           var removedABus = false
 
@@ -59,14 +57,14 @@ Template.map.rendered = function() {
           let geojson = {
             type: "Feature",
             properties: {
-              heading: bus.hdg[0],
-              id: bus._id,
-              routeTag: bus.rt[0],
-              timestamp: bus.tmstmp[0],
+              heading: bus.properties.heading,
+              id: bus.properties.id,
+              routeTag: bus.properties.routeTag,
+              timestamp: bus.properties.timestamp,
             },
             geometry: {
               type: "Point",
-              coordinates: [bus.lon[0], bus.lat[0]],
+              coordinates: bus.geometry.coordinates,
             },
           };
 

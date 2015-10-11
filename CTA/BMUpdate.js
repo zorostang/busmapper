@@ -20,8 +20,8 @@ busesUpdate=function(key){
                     timestamp:vehicle.tmstmp[0]
                   },
                   geometry:{
-                    type: "point",
-                    coordinates:vehicle.lon.concat(vehicle.lat)
+                    type: "Point",
+                    coordinates: [parseFloat(vehicle.lon,10)].concat(parseFloat(vehicle.lat,10))
                   }
                 };
                 Buses.upsert({_id:_id},{$set:obj},{multi:true});
