@@ -15,3 +15,36 @@
 #locate-me span {
   font-size: 2.5em;
 }
+
+.about {
+  position: absolute;
+  width: 300px;
+  height: 150px;
+  background-color: white;
+  border: 1px;
+  z-index: 1;
+  left: 20px;
+  bottom: 20px;
+}
+
+.about p {
+  margin-left: 2px;
+  margin-bottom: 2px;
+  font-size: small;
+  font-family: 'Helvetica', 'Sans-serif';
+}
+
+.about .authors {
+  text-align: center;
+  font-size: small;
+  font-style: italic;
+}
+
+img.avatar {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  margin-left: 3px;
+  margin-right: 3px; 
+  margin-top: 9px;
+}
