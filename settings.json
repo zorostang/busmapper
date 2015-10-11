@@ -1,5 +1,9 @@
 {
   "public": {
     "mapbox": "pk.eyJ1Ijoiem9yb3N0YW5nIiwiYSI6Im5nM1VzUTgifQ.05dq1c1AqclDOBiIJ6Dgog"
+  },
+  "private": {
+    "CTATOKEN1": "mfZVaeUXL5HctzzxpFGyd5FNX",
+    "CTATOKEN2": "LGRLRAMNS9JwEp7aHQ3tJc2Eu"
   }
 }
