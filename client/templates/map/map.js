@@ -1,7 +1,7 @@
 let center;
 let marker;
 let buses;
-const RADIUS = 500; // this value needs to = value in the serverside publish function
+const RADIUS = 1609; // this value needs to = value in the serverside publish function
 
 let moveMarker = function(e) {
   center = maps.map.getCenter();

@@ -13,7 +13,7 @@ Meteor.publish('buses', function(obj) {
     
     let lat = obj.position.lat;
     let lng = obj.position.lng;
-    let distance = obj.distance < 1000 ? obj.distance : 10000;
+    let distance = obj.distance < 2000 ? obj.distance : 2000;
     
     console.log(lat);
     console.log(lng);
