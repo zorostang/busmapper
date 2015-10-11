@@ -26,11 +26,8 @@ Template.map.rendered = function() {
   this.autorun(function() {
     buses = Buses.find().fetch();
     
-    _.each(buses, bus => {
-      if (maps.markerExists('id', bus._id)) {
-        console.log('Marker already exists');
-      } else {
-        console.log('Marker added');
+    if (Mapbox.loaded()) {
+      _.each(buses, bus => {
         let geojson = {
           type: "Feature",
           properties: {
@@ -44,9 +41,17 @@ Template.map.rendered = function() {
             coordinates: [bus.lon[0], bus.lat[0]],
           },
         };
-        maps.addMarker(geojson, 'bus-marker');
-      }
-    });
+
+        if (maps.markerExists('_id', geojson)) {
+          console.log('Marker already exists');
+          console.dir(bus._id);
+          console.dir(geojson);
+        } else {
+          console.log('Marker added');
+          maps.addMarker(geojson);
+        }
+      });
+    }
   });
   this.autorun(() => {
     if (Mapbox.loaded()) {

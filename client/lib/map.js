@@ -28,28 +28,28 @@ if (!mapboxToken) {
           this.map = new L.mapbox.map(mapNode, 'zorostang.him49njf', mapOptions);
         },
 
-        addMarker: function(geojson, className) {
-          if (className === 'bus-marker') {
-            let icon = L.AwesomeMarkers.icon({
-              prefix: 'fa',
-              icon: 'bus',
-              markerColor: 'blue',
-            });
-            let markerOptions = {
-              icon: icon,
-              clickable: true,
-              draggable: false,
-              keyboard: true,
-              zIndexOffset: 100,
-            };
+        addMarker: function(geojson) {
+          let icon = L.AwesomeMarkers.icon({
+            prefix: 'fa',
+            icon: 'bus',
+            markerColor: 'blue',
+          });
 
-            let marker = new L.geoJson(geojson, {
-              pointToLayer: (feature, latlng) => L.marker(latlng, markerOptions),
-            });
+          let markerOptions = {
+            icon: icon,
+            clickable: true,
+            draggable: false,
+            keyboard: true,
+            zIndexOffset: 100,
+          };
 
-            this.buses[geojson.id] = marker;
-            marker.addTo(this.map);
-          }
+          let marker = new L.geoJson(geojson, {
+            pointToLayer: (feature, latlng) => L.marker(latlng, markerOptions),
+          });
+
+          this.buses[geojson.properties.id] = marker;
+          marker.addTo(this.map);
+          console.log('marker added');
         },
 
         removeMarker: function(geojson) {
@@ -59,12 +59,16 @@ if (!mapboxToken) {
 
         markerExists: function(key, val) {
           let result = false;
-          _.each(this.buses, (element, index, list) => {
-            if (element.options[key] === val) {
-              result = true;
-            }
-            return result;
-          });
+          console.log('markerExists()');
+          console.dir(this.buses[key]);
+          if (this.buses[key] === val) {
+            result = true;
+          }
+          // console.log(key)
+          // if (key==val.properties.id){
+          //   result=true;
+          // }
+          return result;
         },
       };
     }
