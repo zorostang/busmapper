@@ -1,4 +1,3 @@
-
 BusesRoutes = new Mongo.Collection("busesroutes");
 Buses = new Mongo.Collection("buses");
 if (Meteor.isServer) {
@@ -13,10 +12,11 @@ if (Meteor.isServer) {
             }).reduce(function(pre, cur) {
               return pre.concat(cur);
             }, []);
-            BusesRoutes.insert({'routes': availableRoutes},function(err,id){
+            if(!BusesRoutes.findOne())
+              BusesRoutes.insert({'routes': availableRoutes},function(err,id){
                 if(!err)
                   busesUpdate(Meteor.settings.private.CTATOKEN1);
-            });
+              });
           }
         });
       }
