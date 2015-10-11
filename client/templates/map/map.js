@@ -2,7 +2,6 @@ let center;
 let marker;
 let buses;
 const RADIUS = 5; // this value needs to = value in the serverside publish function
-let filterCircle;
 
 let moveMarker = function(e) {
   center = maps.map.getCenter();
@@ -23,61 +22,63 @@ Template.map.helpers({
 });
 
 Template.map.rendered = function() {
-  this.autorun(function() {
-    buses = Buses.find().fetch();
-    
-    if (Mapbox.loaded()) {
-      _.each(buses, bus => {
-        let geojson = {
-          type: "Feature",
-          properties: {
-            heading: bus.hdg[0],
-            id: bus._id,
-            routeTag: bus.rt[0],
-            timestamp: bus.tmstmp[0],
-          },
-          geometry: {
-            type: "Point",
-            coordinates: [bus.lon[0], bus.lat[0]],
-          },
-        };
-
-        if (maps.markerExists('_id', geojson)) {
-          console.log('Marker already exists');
-          console.dir(bus._id);
-          console.dir(geojson);
-        } else {
-          console.log('Marker added');
-          maps.addMarker(geojson);
-        }
-      });
-    }
-  });
   this.autorun(() => {
+    buses = Buses.find().fetch();
     if (Mapbox.loaded()) {
-      maps.initialize();
+      if (window.hasOwnProperty('maps') && maps.map === null) {
+        maps.initialize();
+        let icon = L.icon({
+          iconSize: [20, 20],
+          iconUrl: '/images/location-marker.png',
+        });
 
-      let icon = L.icon({
-        iconSize: [20, 20],
-        iconUrl: '/images/location-marker.png',
-      });
-
-      center = maps.map.getCenter();
-      marker = new L.marker(center, {id: 'testId', icon: icon, draggable: false });
-      marker.addTo(maps.map);
-      
+        center = maps.map.getCenter();
+        marker = new L.marker(center, {id: 'testId', icon: icon, draggable: false });
+        marker.addTo(maps.map);
+      }
       maps.map.on('move', moveMarker);
 
+        for (key in maps.buses) {
+          var removedABus = false
 
-      for (key in maps.buses) {
-        if (maps.buses.hasOwnProperty(key)) {
-          _.each(buses, (bus) => {
-            if (key !== bus._id) {
-              maps.removeMarker(maps.buses[key]);
-            }
-          });
+          if (maps.buses.hasOwnProperty(key)) {
+            
+            _.each(buses, (bus) => {
+              if( removedABus ) return;
+
+              if (key !== bus._id) {
+                console.log('about to remove marker');
+                console.dir(maps.buses[key]);
+                maps.removeMarker(maps.buses[key], key);
+                removedABus = true;
+              }
+            });
+          }
         }
-      }
+        _.each(buses, bus => {
+          let geojson = {
+            type: "Feature",
+            properties: {
+              heading: bus.hdg[0],
+              id: bus._id,
+              routeTag: bus.rt[0],
+              timestamp: bus.tmstmp[0],
+            },
+            geometry: {
+              type: "Point",
+              coordinates: [bus.lon[0], bus.lat[0]],
+            },
+          };
+
+          if (maps.markerExists('_id', geojson)) {
+            console.log('Marker already exists');
+            console.dir(bus._id);
+            console.dir(geojson);
+          } else {
+            console.log('Marker added');
+            maps.addMarker(geojson);
+          }
+        });
     }
   });
 };

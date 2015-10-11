@@ -1,11 +1,11 @@
-let settings = Meteor.settings;
-let mapboxToken = settings && settings.public.mapbox;
+Tracker.autorun(() => {
+  if (Mapbox.loaded()) {
+    let settings = Meteor.settings;
+    let mapboxToken = settings && settings.public.mapbox;
 
-if (!mapboxToken) {
-  throw new Error('No mapboxToken token found in settings.json');
-} else {
-  Tracker.autorun(() => {
-    if (Mapbox.loaded()) {
+    if (!mapboxToken) {
+      throw new Error('No mapboxToken token found in settings.json');
+    } else {
       console.log('mapbox loaded');
       maps = {
         map: null,
@@ -46,15 +46,15 @@ if (!mapboxToken) {
           let marker = new L.geoJson(geojson, {
             pointToLayer: (feature, latlng) => L.marker(latlng, markerOptions),
           });
-
           this.buses[geojson.properties.id] = marker;
           marker.addTo(this.map);
           console.log('marker added');
         },
 
-        removeMarker: function(geojson) {
-          this.map.removeLayer(this.buses[geojson.id]);
-          delete this.buses[geojson.id];
+        removeMarker: function(marker, key) {
+          console.log('removeMarker()');
+          this.map.removeLayer(marker);
+          delete this.buses[key];
         },
 
         markerExists: function(key, val) {
@@ -72,5 +72,5 @@ if (!mapboxToken) {
         },
       };
     }
-  });
-}
+  }
+});
