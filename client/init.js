@@ -1,3 +1,5 @@
 Meteor.startup(function() {
-  Mapbox.load();
+  Mapbox.load({
+    gl: true,
+  });
 });
