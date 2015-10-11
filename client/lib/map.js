@@ -2,9 +2,12 @@ let settings = Meteor.settings;
 let mapboxToken = settings && settings.public.mapbox;
 
 if (!mapboxToken) {
-  throw new Error('No mapboxToken token found in settins.json');
+  throw new Error('No mapboxToken token found in settings.json');
 } else {
-  maps = {
+  Tracker.autorun(() => {
+    if (Mapbox.loaded()) {
+      console.log('mapbox loaded');
+      maps = {
     map: null,
 
     buses: [],
@@ -13,13 +16,11 @@ if (!mapboxToken) {
       console.log('maps.initialize()');
       let chicago = new L.LatLng(41.8763499, -87.6514);
 
-      let center = previousStation !== null ? new L.LatLng(previousStation.geometry.coordinates[1], previousStation.geometry.coordinates[0]) : chicago;
-
       let mapNode = $('.map')[0];
       let mapOptions = {
         infoControl: false,
         accessToken: mapboxToken,
-        center: center,
+        center: chicago,
         zoom: 14,
         zoomControl: false,
       };
@@ -64,4 +65,6 @@ if (!mapboxToken) {
       });
     },
   };
+    }
+  });
 }
