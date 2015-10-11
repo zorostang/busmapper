@@ -23,6 +23,7 @@ ecmascript-collections@0.1.6
 ejson@1.0.7
 es5-shim@4.1.13
 fastclick@1.0.7
+fortawesome:fontawesome@4.4.0
 geojson-utils@1.0.4
 hot-code-push@1.0.0
 html-tools@1.0.5
@@ -46,6 +47,8 @@ npm-mongo@1.4.39_1
 observe-sequence@1.0.7
 ordered-dict@1.0.4
 pauloborges:mapbox@2.1.5
+peerlibrary:blocking@0.5.2
+peerlibrary:xml2js@0.4.8_1
 promise@0.5.0
 random@1.0.4
 reactive-dict@1.1.2

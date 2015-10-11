@@ -20,3 +20,5 @@ autopublish             # Publish all data to the clients (for prototyping)
 insecure                # Allow all DB writes from clients (for prototyping)
 pauloborges:mapbox@2.1.5
 http
+fortawesome:fontawesome
+peerlibrary:xml2js

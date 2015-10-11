@@ -16,14 +16,7 @@ Template.map.rendered = function() {
   this.autorun(() => {
     if (Mapbox.loaded()) {
       maps.initialize();
-      let transitRef = new Firebase('https://publicdata-transit.firebaseio.com/ctabus');
-      
-      transitRef.on('value', snapshot => {
-        console.log(snapshot.val());
-      }, errorObject => {
-        console.log('The read failed: ' + errorObject.code);
-      });
-      
+
       let icon = L.icon({
         iconSize: [20, 20],
         iconUrl: '/images/location-marker.png',
@@ -32,8 +25,42 @@ Template.map.rendered = function() {
       center = maps.map.getCenter();
       marker = new L.marker(center, {id: 'testId', icon: icon, draggable: false });
       marker.addTo(maps.map);
-
+      
+      let lng = -87.63384958902995;
+      let lat = 41.86724853515625;
       maps.map.on('move', moveMarker);
+      
+      maps.addMarker({
+        type: "Feature",
+        properties: {
+          heading: 91,
+          id: "805",
+          routeTag: "12",
+          timestamp: 1442986599685,
+          vtype: "bus",
+        },
+        geometry: {
+          type: "Point",
+          coordinates: [lng, lat],
+        },
+      }, 'bus-marker');
+
+      Meteor.setTimeout(() => {
+        maps.removeMarker({
+          type: "Feature",
+          properties: {
+            heading: 91,
+            id: "805",
+            routeTag: "12",
+            timestamp: 1442986599685,
+            vtype: "bus",
+          },
+          geometry: {
+            type: "Point",
+            coordinates: [lng, lat],
+          },
+        });
+      }, 2000);
     }
   });
 };
