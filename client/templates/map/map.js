@@ -63,28 +63,16 @@ Template.map.rendered = function() {
       
       maps.map.on('move', moveMarker);
 
-      let list = [];
-      _.each(buses, (bus) => {
-        list.push(bus._id);
-      });
-      _.findWhere(
-        _.reject(list, (key) => {return key === maps.buses[bus._id];})), {_id: ;
-      
-      maps.removeMarker({
-        type: "Feature",
-        properties: {
-          heading: 91,
-          id: "805",
-          routeTag: "12",
-          timestamp: 1442986599685,
-          vtype: "bus",
-        },
-        geometry: {
-          type: "Point",
-          coordinates: [lng, lat],
-        },
-      });
 
+      for (key in maps.buses) {
+        if (maps.buses.hasOwnProperty(key)) {
+          _.each(buses, (bus) => {
+            if (key !== bus._id) {
+              maps.removeMarker(maps.buses[key]);
+            }
+          });
+        }
+      }
     }
   });
 };
