@@ -22,3 +22,5 @@ pauloborges:mapbox@2.1.5
 http
 fortawesome:fontawesome
 peerlibrary:xml2js
+mdg:geolocation
+sacha:spin
