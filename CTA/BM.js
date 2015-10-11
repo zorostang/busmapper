@@ -1,9 +1,7 @@
-
+BusesRoutes = new Mongo.Collection("busesroutes");
+Buses = new Mongo.Collection("buses");
 if (Meteor.isServer) {
   Meteor.startup(function() {
-    let BusesRoutes = new Mongo.Collection("busesroutes");
-    let Buses = new Mongo.Collection("buses");
-
     HTTP.call("GET", "http://www.ctabustracker.com/bustime/api/v1/getroutes?key=mfZVaeUXL5HctzzxpFGyd5FNX",
       function(err, res) {
         if (!err) {
@@ -22,18 +20,16 @@ if (Meteor.isServer) {
                     if (!err) {
                       let result = xml2js.parseStringSync(res.content)['bustime-response'];
                         if (result.hasOwnProperty('vehicle')) {
-                          
-                          
                           result.vehicle.map((vehicle) => { 
                             let _id = vehicle.vid[0];
                             console.log(_id);
                             _.extend(vehicle, {
                               _id: _id,
                             });
-                            Buses.insert(vehicle);
+                            // Buses.insert(vehicle);
                           });
 
-                          //console.log(result.vehicle);
+                          // console.log(result.vehicle);
                           // Buses.insert(result.vehicle);
                         }
                     }

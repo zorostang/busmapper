@@ -1,3 +1,10 @@
 <template name="map">
+  {{#if gettingLocation}}
+    <button id="locate-me" type="button" class="btn btn-default">
+  {{> spinner}}
+    </button>
+  {{else}}
+    <button id="locate-me" type="button" class="btn btn-default"><span class="fa fa-crosshairs"></span></button>
+  {{/if}}
   <div class="map"></div>
 </template>
